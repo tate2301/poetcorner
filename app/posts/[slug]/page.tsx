@@ -68,10 +68,7 @@ export const generateMetadata = async (props: {
   };
 };
 
-async function MDXLayout(props: {
-  children: ReactNode;
-  params: { slug: string };
-}) {
+async function MDXLayout(props: { params: { slug: string } }) {
   const markdown = await readPostFile(props.params.slug);
 
   if (!markdown) {
