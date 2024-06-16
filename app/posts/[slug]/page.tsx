@@ -29,28 +29,20 @@ async function readPostFile(slug: string) {
 const getSiblings = async (
   slug: string
 ): Promise<{
-  previousPost: Frontmatter | null;
-  nextPost: Frontmatter | null;
+  previousPosts: Frontmatter[];
+  nextPosts: Frontmatter[];
 }> => {
   const posts = (await readAllPosts()).reverse();
   const index = posts.findIndex((post) => post.slug === slug);
 
   if (index === -1) {
-    return { previousPost: null, nextPost: null };
+    return { previousPosts: [], nextPosts: [] };
   }
 
-  let previousPost: Frontmatter | null = null;
-  let nextPost: Frontmatter | null = null;
+  const previousPosts = posts.slice(0, index);
+  const nextPosts = posts.slice(index + 1);
 
-  if (index > 0) {
-    previousPost = posts[index - 1];
-  }
-
-  if (index < posts.length - 1) {
-    nextPost = posts[index + 1];
-  }
-
-  return { previousPost, nextPost };
+  return { previousPosts, nextPosts };
 };
 
 export const generateMetadata = async (props: {
@@ -132,26 +124,37 @@ async function MDXLayout(props: {
       </p>
       <VerticalDivider height={320} />
 
-      <div className="flex justify-between text-[var(--gray-500)] w-full max-w-xl mx-auto flex-col text-center text-3xl my-16">
+      <div className="flex justify-between text-[var(--gray-500)] w-full container mx-auto flex-col text-center text-3xl my-16">
         <div className="flex justify-between mb-12">
-          {siblings.previousPost ? (
-            <Link href={`/posts/${siblings.previousPost.slug}`}>
-              0{siblings.previousPost.index}.
-            </Link>
-          ) : (
-            <div />
-          )}
-          {siblings.nextPost ? (
-            <Link href={`/posts/${siblings.nextPost.slug}`}>
-              0{siblings.nextPost.index}.
-            </Link>
-          ) : (
-            <div />
-          )}
+          <div className="flex flex-col space-y-4">
+            {siblings.previousPosts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/posts/${post.slug}`}
+                className="flex gap-8"
+              >
+                <p>0{post.index}.</p>
+                <p className={instrument_serif_italic.className}>
+                  {post.title}
+                </p>
+              </Link>
+            ))}
+          </div>
+          <div className="flex flex-col space-y-4">
+            {siblings.nextPosts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/posts/${post.slug}`}
+                className="flex gap-8"
+              >
+                <p>0{post.index}.</p>
+                <p className={instrument_serif_italic.className}>
+                  {post.title}
+                </p>
+              </Link>
+            ))}
+          </div>
         </div>
-        <Link href={"/"} className={instrument_serif_italic.className}>
-          Table of contents
-        </Link>
       </div>
     </main>
   );
