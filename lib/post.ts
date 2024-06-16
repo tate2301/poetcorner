@@ -65,9 +65,7 @@ export const readAllPosts = async () => {
     })
   );
 
-  posts
-    .sort((a, b) => +new Date(b!.index) - +new Date(a!.index))
-    .filter(Boolean);
+  posts.sort((a, b) => +b!.index - +a!.index).filter(Boolean);
 
   return posts as Frontmatter[];
 };

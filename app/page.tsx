@@ -3,7 +3,7 @@ import { PostsList } from "@/components/PostsList";
 import VerticalDivider from "@/components/VerticalDivider";
 import { instrument_serif, instrument_serif_italic } from "@/lib/fonts";
 import { readAllPosts } from "@/lib/post";
-import Pen from "@/public/pen.png";
+import Pen from "@/public/Pen.png";
 import Image from "next/image";
 
 export default async function Home() {
@@ -23,7 +23,7 @@ export default async function Home() {
         everything
       </h1>
       <VerticalDivider height={96} />
-      <div className="flex text-[24px] flex-col max-w-xl gap-6 my-16">
+      <div className="max-w-xl my-16">
         <PostsList posts={posts} />
       </div>
       <VerticalDivider height={192} />

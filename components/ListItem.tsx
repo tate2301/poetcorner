@@ -1,3 +1,4 @@
+import { instrument_serif_italic } from "@/lib/fonts";
 import Link from "next/link";
 
 export default function ListItem({
@@ -13,9 +14,13 @@ export default function ListItem({
 }) {
   return (
     <li>
-      <Link href={`/posts/${href}`} className="flex">
+      <Link href={`/posts/${href}`} className="flex text-3xl">
         <p className="w-20">0{index}.</p>
-        <p className="hover:text-[var(--gray-500)]">{title}</p>
+        <p
+          className={`hover:text-[var(--gray-500)] ${instrument_serif_italic.className}`}
+        >
+          {title}
+        </p>
       </Link>
     </li>
   );
